@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Levi Burkhart — Director of Photography</title>
+<style>
+  :root{
+    --plum-black:#170a12;
+    --plum-deep:#2a0f1e;
+    --crimson:#9c2340;
+    --pink-vivid:#e84f7a;
+    --cream:#f3e9e6;
+    --rose-mute:#7a4a58;
+    --line:#4a2635;
+    --font-display: 'Georgia', 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'Courier New', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--plum-black);
+    color:var(--cream);
+    font-family:var(--font-body);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit;}
+
+  /* ---------- Film strip signature element ---------- */
+  .filmstrip{
+    position:fixed;
+    top:0; left:0;
+    width:28px;
+    height:100%;
+    background:var(--plum-deep);
+    border-right:1px solid var(--line);
+    z-index:100;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-evenly;
+  }
+  .filmstrip.right{left:auto; right:0; border-right:none; border-left:1px solid var(--line);}
+  .sprocket{
+    width:12px;
+    height:12px;
+    background:var(--plum-black);
+    border:1px solid var(--rose-mute);
+    border-radius:2px;
+    flex-shrink:0;
+  }
+
+  @media (max-width: 640px){
+    .filmstrip{display:none;}
+  }
+
+  .frame{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- Header / nav ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(23,10,18,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:900px;
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .logo{
+    font-family:var(--font-display);
+    font-size:1.1rem;
+    letter-spacing:0.04em;
+  }
+  .logo .frameno{
+    font-family:var(--font-mono);
+    font-size:0.65rem;
+    color:var(--pink-vivid);
+    display:block;
+    letter-spacing:0.15em;
+  }
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap:28px;
+  }
+  nav a{
+    text-decoration:none;
+    font-size:0.8rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--rose-mute);
+    transition:color 0.2s;
+  }
+  nav a:hover, nav a:focus-visible{color:var(--pink-vivid);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:110px 0 90px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--pink-vivid);
+    margin-bottom:22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:8px;height:8px;
+    background:var(--crimson);
+    border-radius:50%;
+    box-shadow:0 0 0 3px rgba(156,35,64,0.25);
+  }
+  h1{
+    font-family:var(--font-display);
+    font-size:clamp(2.6rem, 6vw, 4.4rem);
+    font-weight:400;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    max-width:11ch;
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--pink-vivid);
+  }
+  .hero-sub{
+    margin-top:26px;
+    max-width:52ch;
+    font-size:1.08rem;
+    color:#d8c3c9;
+  }
+  .hero-meta{
+    margin-top:38px;
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+    font-family:var(--font-mono);
+    font-size:0.78rem;
+    color:var(--rose-mute);
+  }
+  .hero-meta strong{
+    display:block;
+    color:var(--cream);
+    font-family:var(--font-body);
+    font-size:0.95rem;
+    margin-top:2px;
+  }
+
+  /* ---------- Section labels ---------- */
+  .section{
+    padding:80px 0;
+    border-top:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:44px;
+  }
+  .section-num{
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    color:var(--pink-vivid);
+    letter-spacing:0.1em;
+  }
+  h2{
+    font-family:var(--font-display);
+    font-size:1.9rem;
+    font-weight:400;
+  }
+
+  /* ---------- Reel embeds ---------- */
+  .reel{
+    margin-bottom:56px;
+  }
+  .reel:last-child{margin-bottom:0;}
+  .reel-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .reel-title{
+    font-size:1.05rem;
+    font-weight:600;
+  }
+  .reel-role{
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--pink-vivid);
+    border:1px solid var(--crimson);
+    padding:3px 10px;
+    border-radius:2px;
+  }
+  .video-wrap{
+    position:relative;
+    width:100%;
+    padding-bottom:56.25%;
+    background:var(--plum-deep);
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .video-wrap iframe{
+    position:absolute;
+    top:0;left:0;
+    width:100%;height:100%;
+    border:0;
+  }
+  /* sprocket rail on video edges */
+  .video-wrap::before, .video-wrap::after{
+    content:"";
+    position:absolute;
+    top:0; bottom:0;
+    width:14px;
+    background-image:repeating-linear-gradient(
+      to bottom,
+      var(--plum-black) 0, var(--plum-black) 8px,
+      transparent 8px, transparent 16px
+    );
+    z-index:2;
+    pointer-events:none;
+  }
+  .video-wrap::before{left:0;}
+  .video-wrap::after{right:0;}
+
+  /* ---------- Credits ---------- */
+  .credit-list{
+    list-style:none;
+  }
+  .credit-item{
+    display:grid;
+    grid-template-columns:70px 1fr auto;
+    gap:18px;
+    align-items:baseline;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .credit-item:first-child{border-top:1px solid var(--line);}
+  .credit-frameno{
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    color:var(--rose-mute);
+  }
+  .credit-name{
+    font-size:1.05rem;
+  }
+  .credit-role{
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--pink-vivid);
+    text-align:right;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-block{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:30px;
+  }
+  .contact-block p{
+    max-width:42ch;
+    color:#d8c3c9;
+  }
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .contact-links a{
+    font-family:var(--font-mono);
+    font-size:0.95rem;
+    text-decoration:none;
+    color:var(--cream);
+    border-bottom:1px solid var(--crimson);
+    padding-bottom:2px;
+    transition:color 0.2s, border-color 0.2s;
+  }
+  .contact-links a:hover, .contact-links a:focus-visible{
+    color:var(--pink-vivid);
+    border-color:var(--pink-vivid);
+  }
+
+  footer{
+    padding:30px 0 50px;
+    text-align:center;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    color:var(--rose-mute);
+    letter-spacing:0.08em;
+  }
+
+  @media (max-width:640px){
+    .frame{padding:0 20px;}
+    .hero{padding:70px 0 60px;}
+    .credit-item{grid-template-columns:40px 1fr;}
+    .credit-role{grid-column:1/-1; text-align:left; margin-top:4px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    a, nav a{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="filmstrip" aria-hidden="true">
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+</div>
+<div class="filmstrip right" aria-hidden="true">
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+</div>
+
+<header>
+  <div class="nav-inner">
+    <div class="logo">Levi Burkhart<span class="frameno">DP / CAMERA</span></div>
+    <nav>
+      <ul>
+        <li><a href="#reel">Reel</a></li>
+        <li><a href="#credits">Credits</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="frame">
+
+  <section class="hero">
+    <div class="eyebrow">Now shooting — Lake Worth, FL</div>
+    <h1>Frames that hold <em>still</em> when the story doesn't.</h1>
+    <p class="hero-sub">Director of Photography and camera operator based in South Florida. Currently studying Film Production at Palm Beach State College, running Wandering Rose Productions on the side.</p>
+    <div class="hero-meta">
+      <div>Based in<strong>Lake Worth, FL</strong></div>
+      <div>Focus<strong>Narrative &amp; Short Form</strong></div>
+      <div>Available for<strong>DP / Camera Work</strong></div>
+    </div>
+  </section>
+
+  <section class="section" id="reel">
+    <div class="section-head">
+      <span class="section-num">01 / REEL</span>
+      <h2>Selected Work</h2>
+    </div>
+
+    <div class="reel">
+      <div class="reel-label">
+        <span class="reel-title">General Reel</span>
+        <span class="reel-role">Showcase</span>
+      </div>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/6sTrsfRFlCo" title="General Reel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+
+    <div class="reel">
+      <div class="reel-label">
+        <span class="reel-title">Business As Usual</span>
+        <span class="reel-role">DP</span>
+      </div>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/JUhp0OPuVbo" title="Business As Usual" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+
+    <div class="reel">
+      <div class="reel-label">
+        <span class="reel-title">DVD-R</span>
+        <span class="reel-role">Camera Operator</span>
+      </div>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/GgL7nabdiro" title="DVD-R" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="credits">
+    <div class="section-head">
+      <span class="section-num">02 / CREDITS</span>
+      <h2>Camera Department</h2>
+    </div>
+    <ul class="credit-list">
+      <li class="credit-item">
+        <span class="credit-frameno">001</span>
+        <span class="credit-name">Business As Usual</span>
+        <span class="credit-role">DP</span>
+      </li>
+      <li class="credit-item">
+        <span class="credit-frameno">002</span>
+        <span class="credit-name">Spinnin'</span>
+        <span class="credit-role">DP</span>
+      </li>
+      <li class="credit-item">
+        <span class="credit-frameno">003</span>
+        <span class="credit-name">DVD-R</span>
+        <span class="credit-role">Camera Operator</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="section-head">
+      <span class="section-num">03 / CONTACT</span>
+      <h2>Let's Shoot Something</h2>
+    </div>
+    <div class="contact-block">
+      <p>Open to camera department roles — DP, camera operator, lighting &amp; grip. Based in South Florida, willing to travel for the right project.</p>
+      <div class="contact-links">
+        <a href="mailto:hello@example.com">hello@example.com</a>
+        <a href="#" target="_blank" rel="noopener">Wandering Rose Productions →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Levi Burkhart — Camera Department — Shot on ambition, cut on deadline.
+</footer>
+
+</body>
+</html>
